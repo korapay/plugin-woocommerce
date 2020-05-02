@@ -4,13 +4,11 @@
  * Plugin Name: Korapay Payments Gateway
  * Plugin URI: https://korapay.com
  * Description: Accept and make payments from your store with Korapay
- * Author: Divine Olokor
- * Author URI: https://github.com/divee789
- * Version: 1.0.1
+ * Author: Korapay Developers
+ * Author URI: https://korapay.com/developers
+ * Version: 1.0.0
  *
- /*
- * This action hook registers our PHP class as a WooCommerce payment gateway
- */
+
 
  
 if (!defined('ABSPATH')) {
@@ -98,9 +96,8 @@ function korapay_init_gateway_class()
       $this->title       = $this->get_option('title');
       $this->description = $this->get_option('description');
       $this->enabled     = $this->get_option('enabled');
-      $this->testmode    = 'yes' === $this->get_option('testmode');
-      $this->secret_key  = $this->testmode ? $this->get_option('test_secret_key') : $this->get_option('live_secret_key');
-      $this->public_key  = $this->testmode ? $this->get_option('test_public_key') : $this->get_option('live_public_key');
+      $this->secret_key  =  $this->get_option('secret_key');
+      $this->public_key  = $this->get_option('public_key');
       
       
       //===HOOKS=====
@@ -196,33 +193,15 @@ function korapay_init_gateway_class()
           'description' => 'This controls the payment method description which the user sees during checkout.',
           'default' => 'Initialize payment with your credit or debit cards'
         ),
-        'testmode' => array(
-          'title' => 'Test mode',
-          'label' => 'Enable Test Mode',
-          'type' => 'checkbox',
-          'description' => 'Test mode enables you to test payments before going live',
-          'default' => 'yes',
-          'desc_tip' => true
-        ),
-        'test_secret_key' => array(
-          'title' => 'Test Secret Key',
-          'description' => 'Enter your test secret key here',
+        'secret_key' => array(
+          'title' => 'Secret Key',
+          'description' => 'Enter your secret key here',
           'type' => 'text'
         ),
-        'test_public_key' => array(
-          'title' => 'Test Public Key',
+        'public_key' => array(
+          'title' => 'Public Key',
           'type' => 'text',
-          'description' => 'Enter your test public key here'
-        ),
-        'live_secret_key' => array(
-          'title' => 'Live Secret Key',
-          'type' => 'text',
-          'description' => 'Enter your live secret key here'
-        ),
-        'live_public_key' => array(
-          'title' => 'Live Public Key',
-          'type' => 'text',
-          'description' => 'Enter your live public key here'
+          'description' => 'Enter your public key here'
         )
       );
       
@@ -300,8 +279,6 @@ function korapay_init_gateway_class()
       }
       
       wp_localize_script('wc_korapay', 'korapay_params', $korapay_params);
-      
-      // wp_enqueue_script('wc_korapay');
     }
     
     /*
@@ -426,7 +403,7 @@ function korapay_init_gateway_class()
 		exit;
     }
     /*
-     * In case you need a webhook, like PayPal IPN etc
+     * In case you need a webhook etc
      */
     public function webhook()
     {

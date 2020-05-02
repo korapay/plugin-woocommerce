@@ -1,7 +1,6 @@
 
 
 jQuery(function ($) {
-console.log('Initiaizing moddal')
     var paymentRequest = async function () {
 
         var $form = $('form#payment-form, form#order_review'),
@@ -69,9 +68,10 @@ console.log('Initiaizing moddal')
             key: korapay_params.Key,
             amount: total,
             currency: 'NGN',
-            channels: ['card', 'bank_transfer'],
-            customerName: korapay_params.name,
-            customerEmail: korapay_params.email,
+            customer:{
+                name: korapay_params.name,
+                email: korapay_params.email
+            },
             reference:korapay_params.reference,
             onClose: function () {
                 //Remove the backdrop
@@ -79,12 +79,10 @@ console.log('Initiaizing moddal')
 
             },
             onSuccess: function (response) {
-                console.log(response)
                 successCallback(response)
                 return true
             },
             onFailed: function (response) {
-                console.log('error',response)
                 errorCallback(response)
                 return false
             }
