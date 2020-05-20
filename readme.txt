@@ -3,8 +3,7 @@
 Donate link: https://Korapay.com
 Tags: Korapay, woocommerce, payment gateway, verve, Nigeria, mastercard, visa
 Requires at least: 4.7
-Tested up to: 5.3
-Stable tag: 5.6.1
+Tested up to: 5.4
 
 
 Korapay Payment Gateway allows you to accept online payments from local and international customers

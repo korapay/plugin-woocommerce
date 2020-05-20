@@ -255,7 +255,7 @@ function korapay_init_gateway_class()
       wp_enqueue_script('korapay', 'https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js');
       
       //Load The  file
-      wp_enqueue_script('wc_korapay', plugins_url('assets/js/init.js', __FILE__), array(
+      wp_enqueue_script('wc_korapay', plugins_url('/assets/js/init.js', __FILE__), array(
         'jquery',
         'korapay'
       ));
@@ -275,7 +275,7 @@ function korapay_init_gateway_class()
         $korapay_params['amount'] = $amount;
         $korapay_params['name']   = $first_name . ' ' . $last_name;
         $korapay_params['orderId']=$order_id;
-        $korapay_params['reference']=$order_id.'_'.time();
+        $korapay_params['reference']=$order_id;
       }
       
       wp_localize_script('wc_korapay', 'korapay_params', $korapay_params);
