@@ -3,12 +3,14 @@
 /*
  * Plugin Name: Korapay Payments Gateway
  * Plugin URI: https://korapay.com
- * Description: Accept and make payments from your store with Korapay
+ * Description: Official WooCommerce payment gateway for Korapay.
  * Author: Korapay Developers
  * Author URI: https://korapay.com/developers
  * Version: 1.0.0
  *
-
+ /*
+ * This action hook registers our PHP class as a WooCommerce payment gateway
+ */
 
  
 if (!defined('ABSPATH')) {
@@ -96,7 +98,7 @@ function korapay_init_gateway_class()
       $this->title       = $this->get_option('title');
       $this->description = $this->get_option('description');
       $this->enabled     = $this->get_option('enabled');
-      $this->secret_key  =  $this->get_option('secret_key');
+      $this->secret_key  = $this->get_option('secret_key');
       $this->public_key  = $this->get_option('public_key');
       
       
@@ -275,10 +277,11 @@ function korapay_init_gateway_class()
         $korapay_params['amount'] = $amount;
         $korapay_params['name']   = $first_name . ' ' . $last_name;
         $korapay_params['orderId']=$order_id;
-        $korapay_params['reference']=$order_id;
       }
       
       wp_localize_script('wc_korapay', 'korapay_params', $korapay_params);
+      
+      // wp_enqueue_script('wc_korapay');
     }
     
     /*
@@ -347,6 +350,7 @@ function korapay_init_gateway_class()
     @ob_clean();
       
       if ( isset( $_REQUEST['korapay_referenceKey'] ) ) {
+
         if( isset( $_REQUEST['modal_failure'] )){
            $order_id = $_REQUEST['korapay_referenceKey'];
              $order = wc_get_order( $order_id );
@@ -355,12 +359,9 @@ function korapay_init_gateway_class()
 
           $order->update_status( 'failed', 'The Korapay gateway has been temporarily taken down for maintenance');
         }else{
+          
            if( isset( $_REQUEST['trans_failure'] )){
-
-	         $order_details = explode( '_', $_REQUEST['korapay_referenceKey'] );
-
-					$order_id = (int) $order_details[0];
-
+            $order_id = $_REQUEST['order_id'];
           $order = wc_get_order( $order_id );
 
           $order->update_status( 'failed', 'Payment was declined by Korapay');
@@ -369,10 +370,8 @@ function korapay_init_gateway_class()
        
         $korapay_ref = sanitize_text_field( $_REQUEST['korapay_referenceKey'] );
         
-        $order_details = explode('_',$korapay_ref);
-       
-        $order_id = (int) $order_details[0];
-       
+        $order_id = $_REQUEST['order_id'];
+        
         $order = wc_get_order($order_id);
 
         	if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ) ) ) {
@@ -403,7 +402,7 @@ function korapay_init_gateway_class()
 		exit;
     }
     /*
-     * In case you need a webhook etc
+     * In case you need a webhook, like PayPal IPN etc
      */
     public function webhook()
     {

@@ -1,5 +1,6 @@
 jQuery(function ($) {
-	const paymentRequest = async function () {
+	console.log("Initializing Korapay Payment modal");
+	var paymentRequest = async function () {
 		var $form = $("form#payment-form, form#order_review"),
 			korapay_referenceKey = $form.find("input.korapay_referenceKey");
 
@@ -9,7 +10,7 @@ jQuery(function ($) {
 		//Make sure that the amount is a number
 		const total = Number(korapay_params.amount);
 
-		const errorCallback = function (response) {
+		var errorCallback = function (response) {
 			let message = "failure";
 
 			if (response.reference === null) {
@@ -61,6 +62,7 @@ jQuery(function ($) {
 					response.reference +
 					'"/>'
 			);
+			$form.append('<input type="hidden" class="order_id" name="order_id" value="' + korapay_params.orderId + '"/>');
 
 			//Subnit the form to the payment gateway
 			$form.submit();
@@ -78,7 +80,6 @@ jQuery(function ($) {
 		};
 
 		//Initialize the transaction
-		//Open korapay_modal
 		Korapay.initialize({
 			key: korapay_params.Key,
 			amount: total,
@@ -87,7 +88,6 @@ jQuery(function ($) {
 				name: korapay_params.name,
 				email: korapay_params.email,
 			},
-			reference: `${korapay_params.reference}_${new Date().getTime()}`,
 			onClose: function () {
 				//Remove the backdrop
 				$(this.el).unblock();
