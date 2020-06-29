@@ -377,9 +377,4 @@ function korapay_init_gateway_class()
   exit;
   }
 }
-
-
-
-
-
-
+}
