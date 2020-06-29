@@ -6,8 +6,6 @@ jQuery(function ($) {
 
     //Empty the reference Input
     korapay_referenceKey.val("");
-
-    //Make sure that the amount is a number
     const total = Number(korapay_params.amount);
 
     var errorCallback = function (response) {
@@ -40,7 +38,6 @@ jQuery(function ($) {
           '"/>',
       );
 
-      //Subnit the form to the payment gateway
       $form.submit();
 
       //Create a backdrop
@@ -68,7 +65,6 @@ jQuery(function ($) {
           '"/>',
       );
 
-      //Subnit the form to the payment gateway
       $form.submit();
 
       $("body").block({

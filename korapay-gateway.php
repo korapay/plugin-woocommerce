@@ -126,7 +126,7 @@ function korapay_init_gateway_class()
         'receipt_page'
       ));
       // Payment listener/API hook.
-		add_action( 'woocommerce_api_wc_korapay_gateway', array( $this, 'verify_korapay_transaction' ) );
+		add_action( 'woocommerce_api_wc_korapay_gateway', array( $this, 'complete_korapay_transaction' ) );
       
     }
     
@@ -139,7 +139,7 @@ function korapay_init_gateway_class()
 
 		if ( ! in_array( get_woocommerce_currency(), array( 'NGN') ) ) {
 
-			$this->msg = sprintf(  'Korapay does not support your store currency. Kindly set it to either NGN (&#8358), USD (&#36;)<a href="%s">here</a>', admin_url( 'admin.php?page=wc-settings&tab=general' ));
+			$this->msg = sprintf(  'Korapay does not support your store currency. Kindly set it to NGN (&#8358).<a href="%s">here</a>', admin_url( 'admin.php?page=wc-settings&tab=general' ));
 
 			return false;
 
@@ -343,62 +343,38 @@ function korapay_init_gateway_class()
     /**
 	 * Verify Korapay payment.
 	 */
-    public function verify_korapay_transaction(){
-
-    @ob_clean();
-      
-      if ( isset( $_REQUEST['korapay_referenceKey'] ) ) {
-
-        if( isset( $_REQUEST['modal_failure'] )){
-           $order_id = $_REQUEST['korapay_referenceKey'];
-             $order = wc_get_order( $order_id );
-          
-          print_r($order);
-
-          $order->update_status( 'failed', 'The Korapay gateway has been temporarily taken down for maintenance');
-        }else{
-          
-           if( isset( $_REQUEST['trans_failure'] )){
-            $order_id = $_REQUEST['order_id'];
-          $order = wc_get_order( $order_id );
-
-          $order->update_status( 'failed', 'Payment was declined by Korapay');
-          
-        } else {
-       
-        $korapay_ref = sanitize_text_field( $_REQUEST['korapay_referenceKey'] );
-        
-        $order_id = $_REQUEST['order_id'];
-        
-        $order = wc_get_order($order_id);
-
-        	if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ) ) ) {
-
-						wp_redirect( $this->get_return_url( $order ) );
-
-						exit;
-
-					}
-
-        $order->payment_complete( $korapay_ref );
-
-				$order->add_order_note( 'Payment via Korapay successful (Transaction Reference:'.' '. $korapay_ref );
-
-      // Empty cart
-      wc_empty_cart();
-
-      //Redirect to success url
-      wp_redirect( $this->get_return_url( $order ) );
-			exit;
+    public function complete_korapay_transaction(){
+      if (isset( $_REQUEST['korapay_referenceKey'] ) == false) {
+         wc_add_notice('Payment Failed , Try Again');
+         wp_redirect( wc_get_page_permalink( 'cart' ) );
+         exit;
       }
-        }
-       
-    }
-       wc_add_notice('Payment Failed , Try Again');
-      	wp_redirect( wc_get_page_permalink( 'cart' ) );
-
-		exit;
-    }
+  if( isset( $_REQUEST['modal_failure'] )){
+    $order_id = $_REQUEST['korapay_referenceKey'];
+    $order = wc_get_order( $order_id );
+    $order->update_status( 'failed', 'The Korapay gateway has been temporarily taken down for maintenance');
+    return;
+  }
+  if( isset( $_REQUEST['trans_failure'] )){
+    $order_id = $_REQUEST['order_id'];
+    $order = wc_get_order( $order_id );
+    $order->update_status( 'failed', 'Payment was declined by Korapay');
+    return;
+  }
+  $korapay_ref = sanitize_text_field( $_REQUEST['korapay_referenceKey'] );
+  $order_id = $_REQUEST['order_id'];
+  $order = wc_get_order($order_id);
+  if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ) ) ) {
+    wp_redirect( $this->get_return_url( $order ) );
+    exit;
+  }
+  $order->payment_complete( $korapay_ref );
+  $order->add_order_note( 'Payment via Korapay successful (Transaction Reference:'.' '. $korapay_ref );
+  // Empty cart
+  wc_empty_cart();
+  //Redirect to success url
+  wp_redirect( $this->get_return_url( $order ) );
+  exit;
   }
 }
 
