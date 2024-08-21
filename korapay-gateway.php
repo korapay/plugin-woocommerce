@@ -277,6 +277,7 @@ function korapay_init_gateway_class()
         $korapay_params['amount'] = $amount;
         $korapay_params['name']   = $first_name . ' ' . $last_name;
         $korapay_params['orderId']=$order_id;
+        $korapay_params['reference']=$order_id;
       }
       
       wp_localize_script('wc_korapay', 'korapay_params', $korapay_params);
@@ -295,22 +296,30 @@ function korapay_init_gateway_class()
       
     }
     
-    	public function admin_scripts() {
-
-		if ( 'woocommerce_page_wc-settings' !== get_current_screen()->id ) {
-			return;
-		}
 
 
-		$korapay_admin_params = array(
-			'plugin_url' => WC_KORAPAY_URL,
-		);
 
-		wp_enqueue_script( 'wc_korapay_admin',  plugins_url('assets/js/admin.js', __FILE__), array());
+public function admin_scripts() {
+if (!defined('WC_KORAPAY_URL')) {
+    define('WC_KORAPAY_URL', plugins_url('/plugins/korapay-payments-gateway/'));
+}
+    $current_screen = get_current_screen();
+    if (is_null($current_screen) || 'woocommerce_page_wc-settings' !== $current_screen->id) {
+        return;
+    }
 
-		wp_localize_script( 'wc_korapay_admin', 'wc_korapay_admin_params', $korapay_admin_params );
+    if (!defined('WC_KORAPAY_URL') || is_null(WC_KORAPAY_URL)) {
+        return;
+    }
 
-	}
+    $korapay_admin_params = array(
+        'plugin_url' => WC_KORAPAY_URL,
+    );
+
+    wp_enqueue_script('wc_korapay_admin', plugins_url('assets/js/admin.js', __FILE__), array());
+    wp_localize_script('wc_korapay_admin', 'wc_korapay_admin_params', $korapay_admin_params);
+}
+
     /*
      * We're processing the payments here
      */
