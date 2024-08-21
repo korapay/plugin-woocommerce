@@ -78,7 +78,7 @@ function korapay_init_gateway_class()
     {
       
       $this->id                 = 'korapay'; // payment gateway plugin ID
-      $this->icon               = 'https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwilm-Dr85bnAhVIxoUKHaUAB0AQjRx6BAgBEAQ&url=https%3A%2F%2Fkorapay.com%2F&psig=AOvVaw3oycoej5UrPNROiVfuuqlh&ust=1579772094359006'; // URL of the icon that will be displayed on checkout page near your gateway name
+      $this->icon               = 'https://cdn.prod.website-files.com/62dc80e748e94840febe84c5/630c604d78b48446d6915b75_logo_light.svg'; // URL of the icon that will be displayed on checkout page near your gateway name
       $this->has_fields         = true; // in case you need a custom credit card form
       $this->method_title       = 'Korapay Gateway';
       $this->method_description = sprintf('Korapay provides a payment platform that enables local and global businesses accept and disburse payments quickly and seamlessly while saving time and money using either bank transfers or credit card payments, <a href="%1$s" target="_blank">Sign up on korapay.com</a>  to  <a href="%2$s" target="_blank">get your API keys</a>','https://korapay.com','https://business.koraapi.com/dashboard/settings/api-integrations'); // will be displayed on the options page
