@@ -1,9 +1,9 @@
 <?php
 /*
  * Plugin Name: Kora WooCommerce Payment Gateway
- * Plugin URI: https://korayhq.com
+ * Plugin URI: https://korahq.com
  * Description: A WooCommerce payment gateway for Kora.
- * Version: 1.0.0
+ * Version: 1.2.0
  * Author: Kora
  * Author URI: https://korahq.com
  * Text Domain: woo-korapay
