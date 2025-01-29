@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="CodeXplorer-CS">
+	<description>CodeXplorer Coding Standard</description>
+    
+    <!-- Exclude paths -->
+	<exclude-pattern>*/index.php</exclude-pattern>
+	<exclude-pattern>webpack.config.js</exclude-pattern>
+	<exclude-pattern>*/tests/</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/.wordpress-org/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+	<exclude-pattern>cx-wp-plugin-deploy-helper.php</exclude-pattern>
+
+    <!-- Rules -->
+	<rule ref="WordPress">
+		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
+		<exclude name="WordPress.Arrays" />
+		<exclude name="Squiz.Commenting.FunctionComment" />
+		<exclude name="WordPress.PHP.YodaConditions" />
+		<exclude name="Squiz.Commenting.FileComment.SpacingAfterComment" />
+		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine" />
+	</rule>
+	
+    <!-- Configs -->
+	<config name="minimum_supported_wp_version" value="6.0" />
+	<config name="testVersion" value="6.6-" />
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="woo-korapay" />
+		</properties>
+	</rule>
+
+</ruleset>

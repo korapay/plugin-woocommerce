@@ -1,0 +1,51 @@
+{
+    "name": "preciousomonze/woo-korapay",
+    "description": "WooCommerce payment gateway for Kora",
+	"type": "wordpress-plugin",
+    "license": "GPL-3.0",
+    "authors": [
+      {
+          "name": "Precious Omonzejele",
+          "email": "me@codexplorer.ninja"
+      }
+    ],
+    "keywords": [
+      "kora",
+      "korapay",
+      "woocommerce"
+    ],
+   "support": {
+    "issues": "https://github.com/Preciousomonze/woo-korapay/issues",
+    "source": "https://github.com/Preciousomonze/woo-korapay"
+    },
+    "require-dev": {
+      "squizlabs/php_codesniffer": "^3.9",
+      "wp-coding-standards/wpcs": "^3.0",
+      "yoast/phpunit-polyfills": "^1.0",
+		  "automattic/vipwpcs": "^3.0",
+		  "slevomat/coding-standard": "~8.0",
+		  "friendsofphp/php-cs-fixer": "^3.54"
+    },
+    "scripts": {
+      "phpcs": [
+          "phpcs . -s -p -n"
+      ],
+      "phpcs-pre-commit": [
+        "phpcs . -s -p -n"
+      ],
+      "phpcbf": [
+          "phpcbf . -p"
+      ]
+    },
+    "config": {
+      "allow-plugins": {
+          "dealerdirect/phpcodesniffer-composer-installer": true
+      }
+    },
+    "extra": {
+        "scripts-description": {
+            "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+            "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+        }
+    }
+}
