@@ -9,7 +9,7 @@ CLOSE_MSG="\n\nPress [Enter] to close window.";
 CMD_USAGE="usage: cmd [-c] to compress or [-o] to offload";
 PLUGIN_NAME="woo-korapay";
 
-if [[ "$BRANCH" != "main" ]]; then
+if [[ "$BRANCH" != "main" && "$BRANCH" != "master" ]]; then
   printf "Sorry fam, you can only zip and offload (deploy) on master branch, it kinda makes sense that way 😘.$CLOSE_MSG";
   read # Enter to close
   exit 1;
