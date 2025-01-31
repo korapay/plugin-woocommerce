@@ -1,6 +1,6 @@
 node_modules/
 vendor/
-build
+/assets/js/build
 composer.lock
 package-lock.json
 languages/
