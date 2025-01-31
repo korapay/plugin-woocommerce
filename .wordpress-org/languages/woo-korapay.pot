@@ -1,0 +1,317 @@
+# Copyright (C) 2024 woo-korapay
+# This file is distributed under the GPL-3.0 license.
+msgid ""
+msgstr ""
+"Project-Id-Version: woo-korapay 1.0.0\n"
+"Report-Msgid-Bugs-To: Precious Omonzejele <EMAIL>\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"POT-Creation-Date: 2024-10-24T09:50:27.114Z\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Precious Omonzejele <EMAIL>\n"
+"Language-Team: Precious Omonzejele <EMAIL>\n"
+"X-Generator: @wp-blocks/make-pot 1.4.0\n"
+"Language: en\n"
+"domain: \n"
+
+#: style.css
+#. Name of the woo-korapay
+msgid "woo-korapay"
+msgstr ""
+
+#: style.css
+#. Author URI of the woo-korapay
+msgid ""
+msgstr ""
+
+#: style.css
+#. Description of the woo-korapay
+msgid "WooCommerce payment gateway for Kora"
+msgstr ""
+
+#: style.css
+#. Author of the woo-korapay
+msgid "Precious Omonzejele"
+msgstr ""
+
+#: woo-korapay.php:88
+msgid "Settings"
+msgstr ""
+
+#: woo-korapay.php:152
+msgid ""
+"%1$sKora Gateway for WooCommerce is inactive.%2$s The %3$sWooCommerce "
+"plugin%4$s must be active for the Koraypay Gateway to work. Please "
+"%5$sinstall & activate WooCommerce &raquo;%6$s"
+msgstr ""
+
+#: includes/class-wc-korapay-api.php:95
+msgid "Omo! API call to Korapay failed."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:124
+#: includes/class-wc-gateway-korapay.php:245
+msgid "Kora"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:125
+msgid ""
+"Accept online payments from local and international customers using "
+"Mastercard, Visa, Verve Cards and Bank Accounts. <a href=\"%1$s\" "
+"target=\"_blank\">Sign up</a> for a Kora account, and <a href=\"%2$s\" "
+"target=\"_blank\">get your API keys</a>."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:214
+msgid ""
+"Please enter your Kora merchant details <a href=\"%s\">here</a> to be able "
+"to use the Kora Gateway For WooCommerce plugin."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:223
+msgid "Kora Payment Options"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:248
+msgid "Return to payments"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:253
+msgid ""
+"Optional: To avoid stories that touch in situations where bad network makes "
+"it impossible to verify transactions, set your webhook URL <a href=\"%1$s\" "
+"target=\"_blank\" rel=\"noopener noreferrer\">here</a> to the URL "
+"below<span style=\"color: red\"><pre><code>%2$s</code></pre></span>"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:264
+msgid "Kora Payment Gateway Disabled"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:279
+msgid "Thank you for your order, please click the button below to pay with Kora."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:281
+msgid "Pay Now"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:284
+msgid "Cancel order &amp; restore your cart"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:341
+msgid "Payment for Order #%s"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:367
+msgid "Unable to process payment at this time, try again later."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:428
+msgid "An error occurred while verifying payment on Kora."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:435
+msgid "Payment was declined by Kora."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:457
+#: includes/class-wc-gateway-korapay.php:693
+msgid ""
+"Thank you for shopping with us.%1$sYour payment transaction was successful, "
+"but the amount paid is not the same as the total order amount.%2$sYour "
+"order is currently on hold.%3$sKindly contact us for more information "
+"regarding your order and payment status."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:465
+#: includes/class-wc-gateway-korapay.php:700
+msgid ""
+"<strong>Issue! Look into this order</strong>%1$sThis order is currently on "
+"hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount "
+"Paid was <strong>%4$s (%5$s)</strong> while the total order amount is "
+"<strong>%6$s (%7$s)</strong>%8$s<strong>Kora Transaction "
+"Reference:</strong> %9$s"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:480
+#: includes/class-wc-gateway-korapay.php:717
+msgid ""
+"Thank you for shopping with us.%1$sYour payment was successful, but the "
+"payment currency is different from the order currency.%2$sYour order is "
+"currently on-hold.%3$sKindly contact us for more information regarding your "
+"order and payment status."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:488
+#: includes/class-wc-gateway-korapay.php:724
+msgid ""
+"<strong>Issue! Look into this order</strong>%1$sThis order is currently on "
+"hold.%2$sReason: Order currency is different from the payment "
+"currency.%3$sOrder Currency is <strong>%4$s (%5$s)</strong> while the "
+"payment currency is <strong>%6$s (%7$s)</strong>%8$s<strong>Kora "
+"Transaction Reference:</strong> %9$s"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:501
+msgid ""
+"Thank you for shopping with us.%1$sYour payment was successful, but "
+"transaction reference comparison seems differnet.%2$sYour order is "
+"currently on-hold.%3$sKindly contact us for more information regarding your "
+"order and payment status."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:508
+msgid ""
+"<strong>Issue! Look into this order</strong>%1$sThis order is currently on "
+"hold.%2$sReason: Transaction reference comparison failed.%3$sOrder "
+"Transaction reference is <strong>%4$s</strong> while the transaction "
+"reference from Kora is <strong>%5$s</strong>%6$s<strong>Kora Transaction "
+"Reference:</strong> %7$s"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:518
+msgid "Payment via Kora successful! (Transaction Reference: %s)"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:571
+msgid "Refund for Order ID: #%1$s on %2$s"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:599
+msgid "Refunded %1$s. Refund ID: %2$s. Reason: %3$s"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:609
+msgid "Can&#39;t process refund at the moment. Try again later."
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:735
+msgid "Payment via Kora successful (Transaction Reference: %s)"
+msgstr ""
+
+#: includes/class-wc-gateway-korapay.php:756
+msgid ""
+"Sorry, Kora does not support your store currency. Kindly set it to either "
+"NGN (&#8358), GHS (&#x20b5;), USD (&#36;), or KES (KSh) <a "
+"href=\"%s\">here</a>"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:53
+msgid "Enable/Disable"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:54
+msgid "Enable Kora"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:56
+msgid "Enable Kora as a payment option on your website\\'s checkout page."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:61
+msgid "Title"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:63
+msgid "This controls the payment method title which the user sees during checkout."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:64
+msgid "Debit/Credit Cards"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:68
+msgid "Description"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:70
+msgid ""
+"This controls the payment method description which the user sees during "
+"checkout."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:71
+msgid "Make payment using your debit and credit cards"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:75
+msgid "Test mode"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:76
+msgid "Enable Test Mode"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:78
+msgid ""
+"Test mode enables you to test payments before going live. <br />Once the "
+"LIVE MODE is enabled on your Kora account uncheck this."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:83
+msgid "Payment Option"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:91
+msgid "Redirect"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:95
+msgid "Test Secret Key"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:97
+msgid "Enter your Test Secret Key here"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:101
+msgid "Test Public Key"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:103
+msgid "Enter your Test Public Key here."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:107
+msgid "Live Secret Key"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:109
+msgid "Enter your Live Secret Key here."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:113
+msgid "Live Public Key"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:115
+msgid "Enter your Live Public Key here."
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:119
+msgid "Autocomplete Order After Payment"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:120
+msgid "Autocomplete Order"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:123
+msgid "If enabled, the order will be marked as complete after successful payment"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:128
+msgid "Remove Cancel Order & Restore Cart Button"
+msgstr ""
+
+#: includes/admin/class-wc-korapay-settings.php:129
+msgid "Remove the cancel order & restore cart button on the pay for order page"
+msgstr ""
+
+#: assets/js/src/blocks/base.js:9
+msgid "Korapay "
+msgstr ""

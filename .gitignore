@@ -3,4 +3,4 @@ vendor/
 /assets/js/build
 composer.lock
 package-lock.json
-languages/
+/languages/
