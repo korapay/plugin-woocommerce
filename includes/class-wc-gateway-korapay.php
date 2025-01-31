@@ -232,7 +232,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 	 */
 	public function get_logo_url() {
 		$base_location = wc_get_base_location();
-		$url           = \WC_HTTPS::force_https_url( plugins_url( 'assets/images/korapay-' . strtolower( $base_location['country'] ) . '.png', WC_KORAPAY_PLUGIN_FILE ) );
+		$url           = \WC_HTTPS::force_https_url( plugins_url( 'assets/images/kora-' . strtolower( $base_location['country'] ) . '.png', WC_KORAPAY_PLUGIN_FILE ) );
 
 		return apply_filters( 'wc_gateway_korapay_icon_url', $url, $this->id );
 	}
