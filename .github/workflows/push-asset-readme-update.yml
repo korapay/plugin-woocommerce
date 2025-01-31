@@ -2,6 +2,7 @@ name: Plugin asset/readme update
 on:
   push:
     branches:
+    - master
     - readme-assets-trunk #this branch only tries to update readme and assets to deploy this action
     paths:
     - '.wordpress-org/assets/**'
