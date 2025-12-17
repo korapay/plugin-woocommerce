@@ -17,7 +17,7 @@ namespace WC_KORAPAY;
 defined( 'ABSPATH' ) || exit;
 
 // Define plugin constants.
-define( 'WC_KORAPAY_VERSION', '1.0.0' );
+define( 'WC_KORAPAY_VERSION', '1.1.2' );
 define( 'WC_KORAPAY_PLUGIN_FILE', __FILE__ );
 define( 'WC_KORAPAY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WC_KORAPAY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -55,7 +55,7 @@ if ( ! function_exists( 'WC_KORAPAY\\wc_gateway_korapay_init' ) ) {
         require_once WC_KORAPAY_PLUGIN_DIR . '/includes/class-wc-gateway-korapay.php';
         require_once WC_KORAPAY_PLUGIN_DIR . '/includes/class-wc-korapay-api.php';
         require_once WC_KORAPAY_PLUGIN_DIR . '/includes/admin/class-wc-korapay-settings.php';
-        
+
         add_filter( 'woocommerce_payment_gateways', 'WC_KORAPAY\\add_gateway_class' );
     }
 }
