@@ -1,13 +1,15 @@
 === Kora WooCommerce Payment Gateway ===
-Contributors: Kora  
-Tags: payment gateway, WooCommerce, Kora, e-commerce, African payments  
-Requires at least: 6.0  
+Contributors: Kora
+Tags: payment gateway, WooCommerce, Kora, e-commerce, African payments
+Requires at least: 6.0
 Tested up to: 6.7
-WC requires at least: 7.0.0  
-WC tested up to: 9.3.0  
+WC requires at least: 7.0.0
+WC tested up to: 9.3.0
 Stable tag: 1.1.2
-License: GPLv3 or later  
-License URI: https://www.gnu.org/licenses/gpl-2.0.html  
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Accept card, bank transfer, mobile money and other local payment methods in WooCommerce using Kora.
 
 == Description ==
 
@@ -75,13 +77,13 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
 
 == Screenshots ==
 
-1. Kora Payment Gateway Settings Page.  
+1. Kora Payment Gateway Settings Page.
    ![Settings Screenshot Placeholder](https://via.placeholder.com/800x400)
 
-2. Customer Checkout Experience using Kora.  
+2. Customer Checkout Experience using Kora.
    ![Checkout Screenshot Placeholder](https://via.placeholder.com/800x400)
 
-3. WooCommerce Order Page showing Kora Transactions.  
+3. WooCommerce Order Page showing Kora Transactions.
    ![Order Screenshot Placeholder](https://via.placeholder.com/800x400)
 
 == Upgrade Notice ==
