@@ -1,4 +1,4 @@
-=== Kora WooCommerce Payment Gateway ===
+=== Kora Payment Gateway for WooCommerce ===
 Contributors: Kora
 Tags: payment gateway, WooCommerce, Kora, e-commerce, African payments
 Requires at least: 6.0
@@ -13,7 +13,7 @@ Accept card, bank transfer, mobile money and other local payment methods in WooC
 
 == Description ==
 
-The **Kora WooCommerce Payment Gateway** allows you to accept payments directly on your WooCommerce store using Mastercard, Visa, Verve, Mobile Money, Bank Transfer, and more, making it perfect for businesses looking to reach customers across Africa.
+The **Kora Payment Gateway for WooCommerce** allows you to accept payments directly on your WooCommerce store using Mastercard, Visa, Verve, Mobile Money, Bank Transfer, and more, making it perfect for businesses looking to reach customers across Africa.
 
 Get up and running in minutes with Kora's easy integration. Whether it's secure card payments or mobile money transactions, your store can effortlessly manage them all!
 
@@ -31,8 +31,8 @@ This plugin is designed for merchants operating in Ghana 🇬🇭, Kenya 🇰�
 == Installation ==
 
 1. Go to **WordPress Admin** > **Plugins** > **Add New** from the left-hand menu.
-2. In the search box, type **Kora WooCommerce Payment Gateway**.
-3. Click **Install Now** when you find **Kora WooCommerce Payment Gateway**.
+2. In the search box, type **Kora Payment Gateway for WooCommerce**.
+3. Click **Install Now** when you find **Kora Payment Gateway for WooCommerce**.
 4. After installation, **activate** the plugin.
 
 == Kora Setup and Configuration ==
@@ -90,4 +90,4 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
 
 = 1.0 =
 
-* Initial release of Kora WooCommerce Payment Gateway.
+* Initial release of Kora Payment Gateway for WooCommerce.
