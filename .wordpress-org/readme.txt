@@ -7,7 +7,7 @@ WC requires at least: 7.0.0
 WC tested up to: 9.3.0
 Stable tag: 1.1.2
 License: GPLv3 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Accept card, bank transfer, mobile money and other local payment methods in WooCommerce using Kora.
 

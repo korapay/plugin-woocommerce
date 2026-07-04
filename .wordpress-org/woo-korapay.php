@@ -6,6 +6,8 @@
  * Version: 1.1.2
  * Author: Kora
  * Author URI: https://korahq.com
+ * License: GPLv3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: woo-korapay
  * Domain Path: /languages/
  * WC requires at least: 7.0
@@ -21,19 +23,6 @@ define( 'WC_KORAPAY_VERSION', '1.1.2' );
 define( 'WC_KORAPAY_PLUGIN_FILE', __FILE__ );
 define( 'WC_KORAPAY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WC_KORAPAY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-
-
-if ( ! function_exists( 'WC_KORAPAY\\load_plugin_textdomain' ) ) {
-	/**
-	 * Load Localisation files.
-	 *
-	 * @since  1.0.0
-	 */
-	function load_textdomain() {
-		load_plugin_textdomain( 'wc-korapay', false, plugin_basename( dirname( WC_KORAPAY_PLUGIN_FILE ) ) . '/languages' );
-	}
-}
-add_action( 'plugins_loaded', 'WC_KORAPAY\\load_textdomain' );
 
 
 if ( ! function_exists( 'WC_KORAPAY\\wc_gateway_korapay_init' ) ) {
@@ -85,7 +74,7 @@ if ( ! function_exists( 'WC_KORAPAY\\gateway_action_links' ) ) {
     function gateway_action_links( $links ) {
         // Define the settings link.
         $plugin_links = [
-            '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=korapay' ) ) . '">' . __( 'Settings', 'woo-korapay' ) . '</a>',
+            '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=korapay' ) ) . '">' . esc_html__( 'Settings', 'woo-korapay' ) . '</a>',
         ];
         return array_merge( $plugin_links, $links );
     }
