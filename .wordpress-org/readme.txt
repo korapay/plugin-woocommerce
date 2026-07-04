@@ -89,7 +89,7 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
 == Upgrade Notice ==
 
 = 1.1.3 =
-* Misc: Clean up plugin to meet WC standards
+* Misc: Clean up plugin to meet WC standards using Plugin Check
 
 = 1.1.2 =
 * Misc: Update to the image assets
