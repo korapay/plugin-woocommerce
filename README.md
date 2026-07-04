@@ -3,12 +3,12 @@
 **Contributors:** Kora  
 **Tags:** payment gateway, WooCommerce, Kora, e-commerce, African payments  
 **Requires at least:** 6.0  
-**Tested up to:** 6.7
+**Tested up to:** 7.0
 **WC requires at least:** 7.0.0    
 **WC tested up to:** 9.3.0   
 **Stable tag:** 1.1.2
 **License:** GPLv3 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
+**License URI:** https://www.gnu.org/licenses/gpl-3.0.html
 
 ## Description
 
