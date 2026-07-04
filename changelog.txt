@@ -1,6 +1,6 @@
-=== Korapay WooCommerce Payment Gateway ===
+=== Kora Payment Gateway for WooCommerce ===
 
 2025.01.31 - version 1.1.0
-* Release of new Official Kora WooCommerce Payment Gateway.
+* Release of new Official Kora Payment Gateway for WooCommerce.
 * Includes transaction verification and refund capabilities.
 * Supports multiple payment methods.
