@@ -13,20 +13,20 @@ Accept card, bank transfer, mobile money and other local payment methods in WooC
 
 == Description ==
 
-The **Kora Payment Gateway for WooCommerce** allows you to accept payments directly on your WooCommerce store using Mastercard, Visa, Verve, Mobile Money, Bank Transfer, and more, making it perfect for businesses looking to reach customers across Africa.
+The **Kora Payment Gateway for WooCommerce** allows you to accept payments directly on your WooCommerce store using Mastercard, Visa, Verve, Mobile Money, Bank Account, Direct Debit (Pay with Bank) and more, making it perfect for businesses looking to reach customers across Africa.
 
 Get up and running in minutes with Kora's easy integration. Whether it's secure card payments or mobile money transactions, your store can effortlessly manage them all!
 
 = Plugin Features: =
 
-* Accept payments via Mastercard, Visa, Verve, USSD, Mobile Money, Bank Transfer, EFT, and more.
-* Multiple currency support, particularly for payments in Nigerian Naira (NGN), Ghanaian Cedi (GHS), and Kenyan Shilling (KES).
+* Accept payments via Mastercard, Visa, Verve, Mobile Money, Bank Account, EFT, and more.
+* Multiple currency support, particularly for payments in Nigerian Naira (NGN), Ghanaian Cedi (GHS), Kenyan Shilling (KES) and more.
 * Seamless integration with WooCommerce checkout — customers can pay right on your site.
 * Test mode for easy testing before going live.
 
 == Note ==
 
-This plugin is designed for merchants operating in Ghana 🇬🇭, Kenya 🇰🇪, and Nigeria 🇳🇬.
+This plugin is designed for merchants operating in Nigeria 🇳🇬, Ghana 🇬🇭, Kenya 🇰🇪.
 
 == Installation ==
 
@@ -88,6 +88,17 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
 
 == Upgrade Notice ==
 
-= 1.0 =
+= 1.1.3 =
+* Misc: Clean up plugin
 
+= 1.1.2 =
+* Misc: Update to the image assets
+
+= 1.1.1 =
+* General improvements to the plugin
+
+= 1.1.0 =
+* Major improvements to the plugin.
+
+= 1.0.0 =
 * Initial release of Kora Payment Gateway for WooCommerce.
