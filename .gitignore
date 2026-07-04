@@ -4,3 +4,15 @@ vendor/
 composer.lock
 package-lock.json
 /languages/
+.DS_Store
+
+# Keep root plugin files canonical; only WordPress.org listing/deploy assets live here.
+/.wordpress-org/*
+!/.wordpress-org/readme.txt
+!/.wordpress-org/changelog.txt
+!/.wordpress-org/assets/
+!/.wordpress-org/assets/**
+!/.wordpress-org/screenshots/
+!/.wordpress-org/screenshots/**
+!/.wordpress-org/languages/
+!/.wordpress-org/languages/**
