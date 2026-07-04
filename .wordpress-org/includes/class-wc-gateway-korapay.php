@@ -124,7 +124,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
         $this->method_title       = __( 'Kora', 'woo-korapay' );
         $this->method_description = sprintf(
 			// translators: 1: Kora signup URL, 2: Kora API keys URL.
-			__( 'Accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank">Sign up</a> for a Kora account, and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-korapay' ),
+			__( 'Accept online payments from local and international customers using Mastercard, Visa, Verve Cards and Bank Accounts. <a href="%1$s" target="_blank" rel="noopener noreferrer">Sign up</a> for a Kora account, and <a href="%2$s" target="_blank" rel="noopener noreferrer">get your API keys</a>.', 'woo-korapay' ),
 			esc_url( 'https://korahq.com' ),
 			esc_url( 'https://merchant.korapay.com/dashboard/settings/api-integrations' )
 		);
@@ -539,7 +539,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
                     $order->update_meta_data( '_transaction_id', $korapay_ref );
 
                     // translators: 1-3: line breaks.
-                    $notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but transaction reference comparison seems differnet.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-korapay' ), '<br />', '<br />', '<br />' );
+                    $notice      = sprintf( __( 'Thank you for shopping with us.%1$sYour payment was successful, but transaction reference comparison seems different.%2$sYour order is currently on-hold.%3$sKindly contact us for more information regarding your order and payment status.', 'woo-korapay' ), '<br />', '<br />', '<br />' );
                     $notice_type = 'notice';
 
                     // Add Customer Order Note.
