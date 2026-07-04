@@ -19,3 +19,5 @@ jobs:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: korapay-payments-gateway
+          # Only sync readme.txt and .wordpress-org assets; do not rsync plugin code to trunk.
+          IGNORE_OTHER_FILES: true
