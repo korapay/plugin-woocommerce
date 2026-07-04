@@ -1,5 +1,13 @@
 === Kora Payment Gateway for WooCommerce ===
 
+2026.07.04 - version 1.1.3
+* Address WordPress.org Plugin Check compliance issues.
+* Improve gateway output escaping, safe redirects, and payment callback/webhook input handling.
+* Add GPL license headers and remove manual textdomain loading for WordPress.org compatibility.
+* Rename plugin display name for WooCommerce trademark compliance.
+* Update readme payment method descriptions and Tested up to WordPress 7.0.
+* Clean up WordPress.org release source layout and deployment workflows.
+
 2025.01.31 - version 1.1.0
 * Release of new Official Kora Payment Gateway for WooCommerce.
 * Includes transaction verification and refund capabilities.

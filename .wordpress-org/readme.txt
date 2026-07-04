@@ -5,7 +5,7 @@ Requires at least: 6.0
 Tested up to: 7.0
 WC requires at least: 7.0.0
 WC tested up to: 9.3.0
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -89,7 +89,8 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
 == Upgrade Notice ==
 
 = 1.1.3 =
-* Misc: Clean up plugin to meet WC standards
+* Address WordPress.org Plugin Check compliance issues with gateway security, escaping, and i18n improvements.
+* Update plugin metadata, readme payment details, and WordPress 7.0 compatibility notes.
 
 = 1.1.2 =
 * Misc: Update to the image assets
