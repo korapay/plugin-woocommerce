@@ -339,21 +339,13 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		$redirect_url = WC()->api_request_url( 'wc_gateway_korapay' );
 
 		// TODO: Set a setting field to allow non-technical users change this(not necessary).
-		
-		/**
-		 * Filters allowed payment channels
-		 * 
-		 * @param int $order_id
-		 * @return array
-		 */		
-		$_channels = apply_filters( 'wc_korapay_allowed_payment_channels', array( 'card', 'bank_transfer' ), $order_id );
-		
+
 		/**
 		 * Filters default payment channel
-		 * 
+		 *
 		 * @param int $order_id
 		 * @return string
-		 */		
+		 */
 		$_default_channel = apply_filters( 'wc_korapay_default_payment_channels', 'card', $order_id );
 
 		$order_narration = sprintf(
@@ -372,7 +364,6 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
             'redirect_url'       => $redirect_url,
             'notification_url'   => $webhook_url,
             'narration'          => $order_narration,
-            'channels'           => $_channels,
             'default_channel'    => $_default_channel,
             'customer'           => array(
                 'email' => $order->get_billing_email(),
@@ -812,10 +803,10 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 	 * Check if this gateway is enabled and available in the user's country.
 	 */
 	public function is_valid_for_use() {
-		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'wc_korapay_supported_currencies', array( 'NGN', 'USD', 'GHS', 'KES' ) ) ) ) {
+		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'wc_korapay_supported_currencies', array( 'NGN', 'USD', 'GHS', 'KES', 'EGP', 'XAF', 'XOF', 'TZS' ) ) ) ) {
 			$this->msg = sprintf(
 				// translators: %s: WooCommerce general settings URL.
-				__( 'Sorry, Kora does not support your store currency. Kindly set it to either NGN (&#8358), GHS (&#x20b5;), USD (&#36;), or KES (KSh) <a href="%s">here</a>', 'woo-korapay' ),
+				__( 'Sorry, Kora does not support your store currency. Please set your store currency to a currency supported by Kora <a href="%s">here</a>.', 'woo-korapay' ),
 				esc_url( admin_url( 'admin.php?page=wc-settings&tab=general' ) )
 			);
 			return false;
