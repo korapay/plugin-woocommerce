@@ -44,6 +44,21 @@ class WC_Korapay_Settings {
         return '';
     }
     /**
+     * Payment channels currently supported by Kora's charge API.
+     *
+     * @return array
+     */
+    public static function get_channel_options() {
+        return array(
+            'card'          => __( 'Card', 'woo-korapay' ),
+            'bank_transfer' => __( 'Bank Transfer', 'woo-korapay' ),
+            'pay_with_bank' => __( 'Pay with Bank', 'woo-korapay' ),
+            'mobile_money'  => __( 'Mobile Money', 'woo-korapay' ),
+            'voucher'       => __( 'Voucher', 'woo-korapay' ),
+        );
+    }
+
+    /**
      * Settings Form Field.
      */
     public static function get_settings_form_fields() {
@@ -90,6 +105,24 @@ class WC_Korapay_Settings {
                     'inline'    => __( 'Popup', 'woo-korapay' ),*/
                     'redirect'  => __( 'Redirect', 'woo-korapay' ),
                 ),
+            ),
+            'default_channel'                  => array(
+                'title'       => __( 'Default Payment Channel', 'woo-korapay' ),
+                'type'        => 'select',
+                'description' => __( 'The payment channel pre-selected on the Kora payment page. If it is not included in Allowed Payment Channels below, the first allowed channel is used instead.', 'woo-korapay' ),
+                'default'     => 'card',
+                'desc_tip'    => true,
+                'options'     => self::get_channel_options(),
+            ),
+            'allowed_channels'                 => array(
+                'title'       => __( 'Allowed Payment Channels', 'woo-korapay' ),
+                'type'        => 'multiselect',
+                'class'       => 'wc-enhanced-select',
+                'css'         => 'width: 400px;',
+                'description' => __( 'Choose which payment channels customers can use at checkout. Leave empty to allow every channel enabled on your Kora account.', 'woo-korapay' ),
+                'default'     => array(),
+                'desc_tip'    => true,
+                'options'     => self::get_channel_options(),
             ),
             'test_secret_key'                  => array(
                 'title'       => __( 'Test Secret Key', 'woo-korapay' ),
