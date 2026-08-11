@@ -358,7 +358,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		);
 
 		$korapay_params = array(
-            'amount'             => absint( $amount ),
+            'amount'             => absint( ceil( $amount ) ),
             'currency'           => $order->get_currency(),
             'reference'          => $txn_ref,
             'redirect_url'       => $redirect_url,
@@ -803,7 +803,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 	 * Check if this gateway is enabled and available in the user's country.
 	 */
 	public function is_valid_for_use() {
-		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'wc_korapay_supported_currencies', array( 'NGN', 'USD', 'GHS', 'KES', 'EGP', 'XAF', 'XOF', 'TZS' ) ) ) ) {
+		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'wc_korapay_supported_currencies', array( 'NGN', 'USD', 'GHS', 'KES', 'EGP', 'XAF', 'XOF', 'TZS' ) ), true ) ) {
 			$this->msg = sprintf(
 				// translators: %s: WooCommerce general settings URL.
 				__( 'Sorry, Kora does not support your store currency. Please set your store currency to a currency supported by Kora <a href="%s">here</a>.', 'woo-korapay' ),
