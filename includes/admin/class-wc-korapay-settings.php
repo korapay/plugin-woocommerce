@@ -109,10 +109,10 @@ class WC_Korapay_Settings {
             'default_channel'                  => array(
                 'title'       => __( 'Default Payment Channel', 'woo-korapay' ),
                 'type'        => 'select',
-                'description' => __( 'The payment channel pre-selected on the Kora payment page. If it is not included in Allowed Payment Channels below, the first allowed channel is used instead.', 'woo-korapay' ),
-                'default'     => 'card',
+                'description' => __( 'The payment channel pre-selected on the Kora payment page. If it is not included in Allowed Payment Channels below, the first allowed channel is used instead. Leave unset to let Kora decide.', 'woo-korapay' ),
+                'default'     => '',
                 'desc_tip'    => true,
-                'options'     => self::get_channel_options(),
+                'options'     => array( '' => __( '— None (let Kora decide) —', 'woo-korapay' ) ) + self::get_channel_options(),
             ),
             'allowed_channels'                 => array(
                 'title'       => __( 'Allowed Payment Channels', 'woo-korapay' ),

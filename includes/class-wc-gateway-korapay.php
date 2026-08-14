@@ -352,12 +352,12 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		 * @param int $order_id
 		 * @return string
 		 */
-		$_default_channel = apply_filters( 'wc_korapay_default_payment_channels', $this->get_option( 'default_channel', 'card' ), $order_id );
+		$_default_channel = apply_filters( 'wc_korapay_default_payment_channels', $this->get_option( 'default_channel', '' ), $order_id );
 
 		// Kora requires the default channel to be one of the allowed channels. If a merchant
 		// restricts channels without updating the default, fall back to the first allowed
 		// channel rather than send Kora an inconsistent combination.
-		if ( ! empty( $_channels ) && ! in_array( $_default_channel, $_channels, true ) ) {
+		if ( ! empty( $_channels ) && ! empty( $_default_channel ) && ! in_array( $_default_channel, $_channels, true ) ) {
 			$_default_channel = reset( $_channels );
 		}
 
@@ -377,7 +377,6 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
             'redirect_url'       => $redirect_url,
             'notification_url'   => $webhook_url,
             'narration'          => $order_narration,
-            'default_channel'    => $_default_channel,
             'customer'           => array(
                 'email' => $order->get_billing_email(),
                 'name'  => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
@@ -392,6 +391,10 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
 		if ( ! empty( $_channels ) ) {
 			$korapay_params['channels'] = $_channels;
+		}
+
+		if ( ! empty( $_default_channel ) ) {
+			$korapay_params['default_channel'] = $_default_channel;
 		}
 
 		// $korapay_params['metadata']['custom_fields'] = $this->get_custom_fields( $order_id );
