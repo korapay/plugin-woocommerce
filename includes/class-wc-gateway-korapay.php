@@ -354,6 +354,19 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		 */
 		$_default_channel = apply_filters( 'wc_korapay_default_payment_channels', $this->get_option( 'default_channel', '' ), $order_id );
 
+		// Kora only supports a subset of channels for some currencies (e.g. GHS only
+		// supports mobile_money). Strip out anything invalid for this order's currency
+		// so we never send Kora a channel it will reject outright.
+		$_valid_channels_for_currency = WC_Korapay_Settings::get_channels_for_currency( $order->get_currency() );
+
+		if ( ! empty( $_channels ) ) {
+			$_channels = array_values( array_intersect( $_channels, $_valid_channels_for_currency ) );
+		}
+
+		if ( ! empty( $_default_channel ) && ! in_array( $_default_channel, $_valid_channels_for_currency, true ) ) {
+			$_default_channel = '';
+		}
+
 		// Kora requires the default channel to be one of the allowed channels. If a merchant
 		// restricts channels without updating the default, fall back to the first allowed
 		// channel rather than send Kora an inconsistent combination.
@@ -371,7 +384,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		);
 
 		$korapay_params = array(
-            'amount'             => absint( ceil( $amount ) ),
+            'amount'             => round( (float) $amount, wc_get_price_decimals() ),
             'currency'           => $order->get_currency(),
             'reference'          => $txn_ref,
             'redirect_url'       => $redirect_url,
@@ -408,7 +421,14 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
             do_action( 'wc_korapay_redirect_payment_error', $response, $korapay_params, $order_id );
 
-            wc_add_notice( apply_filters( 'wc_korapay_redirect_payment_error_msg', __( 'Unable to process payment at this time, try again later.', 'woo-korapay' ), $response, $order_id ) , 'error' );
+            $default_error_msg = __( 'Unable to process payment at this time, try again later.', 'woo-korapay' );
+            $error_msg         = ( 'korapay_api_failed' === $response->get_error_code()
+                && $response->get_error_message()
+                && current_user_can( 'manage_woocommerce' ) )
+                ? $response->get_error_message()
+                : $default_error_msg;
+
+            wc_add_notice( apply_filters( 'wc_korapay_redirect_payment_error_msg', $error_msg, $response, $order_id ), 'error' );
 
 			return array(
 				'result'   => 'fail',
@@ -494,7 +514,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
             $payment_currency = strtoupper( $response['data']['currency'] );
             $gateway_symbol   = get_woocommerce_currency_symbol( $payment_currency );
 
-			if ( $amount_paid < absint( $order_total ) ) {
+			if ( round( (float) $amount_paid, wc_get_price_decimals() ) < round( (float) $order_total, wc_get_price_decimals() ) ) {
 
                 $order->update_status( 'on-hold', '' );
 
@@ -741,7 +761,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
 		$order_total = $order->get_total();
 
-		$amount_paid = $korapay_response['data']['amount'] / 100;
+		$amount_paid = $korapay_response['data']['amount'];
 
 		$korapay_ref = $korapay_response['data']['reference'];
 
@@ -750,7 +770,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		$gateway_symbol = get_woocommerce_currency_symbol( $payment_currency );
 
 		// check if the amount paid is equal to the order amount.
-		if ( $amount_paid < absint( $order_total ) ) {
+		if ( round( (float) $amount_paid, wc_get_price_decimals() ) < round( (float) $order_total, wc_get_price_decimals() ) ) {
 
 			$order->update_status( 'on-hold', '' );
 

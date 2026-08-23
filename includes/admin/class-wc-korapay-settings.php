@@ -59,9 +59,62 @@ class WC_Korapay_Settings {
     }
 
     /**
+     * Payment channels Kora supports per currency.
+     *
+     * Mirrors Kora's own currency-product support matrix. Currencies not listed
+     * here (e.g. USD) aren't verified yet, so no channels are offered for them.
+     *
+     * @return array Map of currency code => array of supported channel keys.
+     */
+    public static function get_currency_channel_map() {
+        return apply_filters(
+            'wc_korapay_currency_channel_map',
+            array(
+                'NGN' => array( 'card', 'bank_transfer', 'pay_with_bank' ),
+                'GHS' => array( 'mobile_money' ),
+                'KES' => array( 'mobile_money' ),
+                'EGP' => array( 'mobile_money' ),
+                'XAF' => array( 'mobile_money' ),
+                'XOF' => array( 'mobile_money' ),
+                'TZS' => array( 'mobile_money' ),
+            )
+        );
+    }
+
+    /**
+     * Channel keys valid for a given currency.
+     *
+     * Currencies not in the map aren't verified against Kora's per-currency channel
+     * rules yet, so none are offered rather than guessing all of them are valid.
+     *
+     * @param string $currency
+     * @return array
+     */
+    public static function get_channels_for_currency( $currency ) {
+        $map = self::get_currency_channel_map();
+
+        return ! empty( $map[ $currency ] ) ? $map[ $currency ] : array();
+    }
+
+    /**
+     * Channel options valid for a currency, for use in a settings select/multiselect.
+     *
+     * @param string $currency
+     * @return array
+     */
+    public static function get_channel_options_for_currency( $currency ) {
+        $valid = self::get_channels_for_currency( $currency );
+
+        return array_intersect_key( self::get_channel_options(), array_flip( $valid ) );
+    }
+
+    /**
      * Settings Form Field.
      */
     public static function get_settings_form_fields() {
+
+        $_currency                       = get_woocommerce_currency();
+        $_channels_supported_for_currency = ! empty( self::get_channels_for_currency( $_currency ) );
 
         $settings_form_fields = array(
             'enabled'                          => array(
@@ -109,20 +162,24 @@ class WC_Korapay_Settings {
             'default_channel'                  => array(
                 'title'       => __( 'Default Payment Channel', 'woo-korapay' ),
                 'type'        => 'select',
-                'description' => __( 'The payment channel pre-selected on the Kora payment page. If it is not included in Allowed Payment Channels below, the first allowed channel is used instead. Leave unset to let Kora decide.', 'woo-korapay' ),
+                'description' => $_channels_supported_for_currency
+                    ? __( 'The payment channel pre-selected on the Kora payment page. If it is not included in Allowed Payment Channels below, the first allowed channel is used instead. Leave unset to let Kora decide.', 'woo-korapay' )
+                    : __( 'Channel support for your store currency has not been verified yet, so a default cannot be set here. Kora will decide automatically based on what is enabled on your account.', 'woo-korapay' ),
                 'default'     => '',
                 'desc_tip'    => true,
-                'options'     => array( '' => __( '— None (let Kora decide) —', 'woo-korapay' ) ) + self::get_channel_options(),
+                'options'     => array( '' => __( '— None (let Kora decide) —', 'woo-korapay' ) ) + self::get_channel_options_for_currency( $_currency ),
             ),
             'allowed_channels'                 => array(
                 'title'       => __( 'Allowed Payment Channels', 'woo-korapay' ),
                 'type'        => 'multiselect',
                 'class'       => 'wc-enhanced-select',
                 'css'         => 'width: 400px;',
-                'description' => __( 'Choose which payment channels customers can use at checkout. Leave empty to allow every channel enabled on your Kora account.', 'woo-korapay' ),
+                'description' => $_channels_supported_for_currency
+                    ? __( 'Choose which payment channels customers can use at checkout. Leave empty to allow every channel enabled on your Kora account.', 'woo-korapay' )
+                    : __( 'Channel support for your store currency has not been verified yet, so channels cannot be restricted here. All channels enabled on your Kora account will be available at checkout.', 'woo-korapay' ),
                 'default'     => array(),
                 'desc_tip'    => true,
-                'options'     => self::get_channel_options(),
+                'options'     => self::get_channel_options_for_currency( $_currency ),
             ),
             'test_secret_key'                  => array(
                 'title'       => __( 'Test Secret Key', 'woo-korapay' ),
