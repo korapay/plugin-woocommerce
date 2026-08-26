@@ -346,6 +346,10 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		 */
 		$_channels = apply_filters( 'wc_korapay_allowed_payment_channels', $this->get_option( 'allowed_channels', array() ), $order_id );
 
+		// get_option()/filters aren't guaranteed to return an array; normalize so
+		// array_intersect() below never receives a non-array and fatals.
+		$_channels = is_array( $_channels ) ? $_channels : array();
+
 		/**
 		 * Filters default payment channel
 		 *
