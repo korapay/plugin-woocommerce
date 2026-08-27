@@ -187,11 +187,6 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
         // Let's set the api keys we will be using.
 		$this->active_public_key = $this->testmode ? $this->test_public_key : $this->live_public_key;
 		$this->active_secret_key = $this->testmode ? $this->test_secret_key : $this->live_secret_key;
-
-		// Check if the gateway can be used.
-		if ( ! $this->is_valid_for_use() ) {
-			$this->enabled = false;
-		}
     }
 
     /**
@@ -279,15 +274,9 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
 
 		<?php
-		if ( $this->is_valid_for_use() ) {
-			echo '<table class="form-table">';
-			$this->generate_settings_html();
-			echo '</table>';
-		} else {
-			?>
-			<div class="inline error"><p><strong><?php esc_html_e( 'Kora Payment Gateway Disabled', 'woo-korapay' ); ?></strong>: <?php echo wp_kses_post( $this->msg ); ?></p></div>
-			<?php
-		}
+		echo '<table class="form-table">';
+		$this->generate_settings_html();
+		echo '</table>';
 	}
 
     /**
@@ -842,22 +831,6 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 	}
 
     // HELPER FUNCTIONS.
-
-	/**
-	 * Check if this gateway is enabled and available in the user's country.
-	 */
-	public function is_valid_for_use() {
-		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'wc_korapay_supported_currencies', array( 'NGN', 'USD', 'GHS', 'KES', 'EGP', 'XAF', 'XOF', 'TZS' ) ), true ) ) {
-			$this->msg = sprintf(
-				// translators: %s: WooCommerce general settings URL.
-				__( 'Sorry, Kora does not support your store currency. Please set your store currency to a currency supported by Kora <a href="%s">here</a>.', 'woo-korapay' ),
-				esc_url( admin_url( 'admin.php?page=wc-settings&tab=general' ) )
-			);
-			return false;
-		}
-
-		return true;
-	}
 
 
     /**

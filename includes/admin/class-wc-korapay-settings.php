@@ -109,12 +109,31 @@ class WC_Korapay_Settings {
     }
 
     /**
+     * All channel options verified for at least one currency, regardless of
+     * store currency.
+     *
+     * Used for the settings page, where there is no order yet to check a
+     * currency against — the store's default currency isn't a reliable proxy
+     * for what an order will actually be placed in (e.g. multi-currency
+     * stores), so we offer everything Kora supports anywhere and let the
+     * per-order currency check at charge time do the real filtering.
+     *
+     * @return array
+     */
+    public static function get_all_channel_options() {
+        $all_channels = array();
+
+        foreach ( self::get_currency_channel_map() as $channels ) {
+            $all_channels = array_merge( $all_channels, $channels );
+        }
+
+        return array_intersect_key( self::get_channel_options(), array_flip( array_unique( $all_channels ) ) );
+    }
+
+    /**
      * Settings Form Field.
      */
     public static function get_settings_form_fields() {
-
-        $_currency                       = get_woocommerce_currency();
-        $_channels_supported_for_currency = ! empty( self::get_channels_for_currency( $_currency ) );
 
         $settings_form_fields = array(
             'enabled'                          => array(
@@ -162,24 +181,20 @@ class WC_Korapay_Settings {
             'default_channel'                  => array(
                 'title'       => __( 'Default Payment Channel', 'woo-korapay' ),
                 'type'        => 'select',
-                'description' => $_channels_supported_for_currency
-                    ? __( 'The payment channel pre-selected on the Kora payment page. If it is not included in Allowed Payment Channels below, the first allowed channel is used instead. Leave unset to let Kora decide.', 'woo-korapay' )
-                    : __( 'Channel support for your store currency has not been verified yet, so a default cannot be set here. Kora will decide automatically based on what is enabled on your account.', 'woo-korapay' ),
+                'description' => __( 'The payment channel pre-selected on the Kora payment page. If it is not valid for an order\'s currency, or not included in Allowed Payment Channels below, the first allowed channel is used instead. Leave unset to let Kora decide.', 'woo-korapay' ),
                 'default'     => '',
                 'desc_tip'    => true,
-                'options'     => array( '' => __( '— None (let Kora decide) —', 'woo-korapay' ) ) + self::get_channel_options_for_currency( $_currency ),
+                'options'     => array( '' => __( '— None (let Kora decide) —', 'woo-korapay' ) ) + self::get_all_channel_options(),
             ),
             'allowed_channels'                 => array(
                 'title'       => __( 'Allowed Payment Channels', 'woo-korapay' ),
                 'type'        => 'multiselect',
                 'class'       => 'wc-enhanced-select',
                 'css'         => 'width: 400px;',
-                'description' => $_channels_supported_for_currency
-                    ? __( 'Choose which payment channels customers can use at checkout. Leave empty to allow every channel enabled on your Kora account.', 'woo-korapay' )
-                    : __( 'Channel support for your store currency has not been verified yet, so channels cannot be restricted here. All channels enabled on your Kora account will be available at checkout.', 'woo-korapay' ),
+                'description' => __( 'Choose which payment channels customers can use at checkout. Only channels valid for an order\'s currency are ever offered to that customer. Leave empty to allow every channel enabled on your Kora account.', 'woo-korapay' ),
                 'default'     => array(),
                 'desc_tip'    => true,
-                'options'     => self::get_channel_options_for_currency( $_currency ),
+                'options'     => self::get_all_channel_options(),
             ),
             'test_secret_key'                  => array(
                 'title'       => __( 'Test Secret Key', 'woo-korapay' ),
