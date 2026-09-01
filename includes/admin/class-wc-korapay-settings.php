@@ -44,6 +44,96 @@ class WC_Korapay_Settings {
         return '';
     }
     /**
+     * Payment channels currently supported by Kora's charge API.
+     *
+     * @return array
+     */
+    public static function get_channel_options() {
+        return array(
+            'card'          => __( 'Card', 'woo-korapay' ),
+            'bank_transfer' => __( 'Bank Transfer', 'woo-korapay' ),
+            'pay_with_bank' => __( 'Pay with Bank', 'woo-korapay' ),
+            'mobile_money'  => __( 'Mobile Money', 'woo-korapay' ),
+            'voucher'       => __( 'Voucher', 'woo-korapay' ),
+        );
+    }
+
+    /**
+     * Payment channels Kora supports per currency.
+     *
+     * Mirrors Kora's own currency-product support matrix. Currencies not listed
+     * here aren't verified yet, so no channels are offered for them. This is
+     * also the source of truth for which currencies the gateway is offered
+     * for at all — see WC_Gateway_Korapay::is_available().
+     *
+     * @return array Map of currency code => array of supported channel keys.
+     */
+    public static function get_currency_channel_map() {
+        return apply_filters(
+            'wc_korapay_currency_channel_map',
+            array(
+                'NGN' => array( 'card', 'bank_transfer', 'pay_with_bank' ),
+                'USD' => array( 'card' ),
+                'GHS' => array( 'mobile_money' ),
+                'KES' => array( 'mobile_money' ),
+                'EGP' => array( 'mobile_money' ),
+                'XAF' => array( 'mobile_money' ),
+                'XOF' => array( 'mobile_money' ),
+                'TZS' => array( 'mobile_money' ),
+            )
+        );
+    }
+
+    /**
+     * Channel keys valid for a given currency.
+     *
+     * Currencies not in the map aren't verified against Kora's per-currency channel
+     * rules yet, so none are offered rather than guessing all of them are valid.
+     *
+     * @param string $currency
+     * @return array
+     */
+    public static function get_channels_for_currency( $currency ) {
+        $map = self::get_currency_channel_map();
+
+        return ! empty( $map[ $currency ] ) ? $map[ $currency ] : array();
+    }
+
+    /**
+     * Channel options valid for a currency, for use in a settings select/multiselect.
+     *
+     * @param string $currency
+     * @return array
+     */
+    public static function get_channel_options_for_currency( $currency ) {
+        $valid = self::get_channels_for_currency( $currency );
+
+        return array_intersect_key( self::get_channel_options(), array_flip( $valid ) );
+    }
+
+    /**
+     * All channel options verified for at least one currency, regardless of
+     * store currency.
+     *
+     * Used for the settings page, where there is no order yet to check a
+     * currency against — the store's default currency isn't a reliable proxy
+     * for what an order will actually be placed in (e.g. multi-currency
+     * stores), so we offer everything Kora supports anywhere and let the
+     * per-order currency check at charge time do the real filtering.
+     *
+     * @return array
+     */
+    public static function get_all_channel_options() {
+        $all_channels = array();
+
+        foreach ( self::get_currency_channel_map() as $channels ) {
+            $all_channels = array_merge( $all_channels, $channels );
+        }
+
+        return array_intersect_key( self::get_channel_options(), array_flip( array_unique( $all_channels ) ) );
+    }
+
+    /**
      * Settings Form Field.
      */
     public static function get_settings_form_fields() {
@@ -90,6 +180,24 @@ class WC_Korapay_Settings {
                     'inline'    => __( 'Popup', 'woo-korapay' ),*/
                     'redirect'  => __( 'Redirect', 'woo-korapay' ),
                 ),
+            ),
+            'default_channel'                  => array(
+                'title'       => __( 'Default Payment Channel', 'woo-korapay' ),
+                'type'        => 'select',
+                'description' => __( 'The payment channel pre-selected on the Kora payment page. If it is not valid for an order\'s currency, or not included in Allowed Payment Channels below, the first allowed channel is used instead. Leave unset to let Kora decide.', 'woo-korapay' ),
+                'default'     => '',
+                'desc_tip'    => true,
+                'options'     => array( '' => __( '— None (let Kora decide) —', 'woo-korapay' ) ) + self::get_all_channel_options(),
+            ),
+            'allowed_channels'                 => array(
+                'title'       => __( 'Allowed Payment Channels', 'woo-korapay' ),
+                'type'        => 'multiselect',
+                'class'       => 'wc-enhanced-select',
+                'css'         => 'width: 400px;',
+                'description' => __( 'Choose which payment channels customers can use at checkout. Only channels valid for an order\'s currency are ever offered to that customer. Leave empty to allow every channel enabled on your Kora account.', 'woo-korapay' ),
+                'default'     => array(),
+                'desc_tip'    => true,
+                'options'     => self::get_all_channel_options(),
             ),
             'test_secret_key'                  => array(
                 'title'       => __( 'Test Secret Key', 'woo-korapay' ),
