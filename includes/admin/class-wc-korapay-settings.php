@@ -62,7 +62,9 @@ class WC_Korapay_Settings {
      * Payment channels Kora supports per currency.
      *
      * Mirrors Kora's own currency-product support matrix. Currencies not listed
-     * here (e.g. USD) aren't verified yet, so no channels are offered for them.
+     * here aren't verified yet, so no channels are offered for them. This is
+     * also the source of truth for which currencies the gateway is offered
+     * for at all — see WC_Gateway_Korapay::is_available().
      *
      * @return array Map of currency code => array of supported channel keys.
      */
@@ -71,6 +73,7 @@ class WC_Korapay_Settings {
             'wc_korapay_currency_channel_map',
             array(
                 'NGN' => array( 'card', 'bank_transfer', 'pay_with_bank' ),
+                'USD' => array( 'card' ),
                 'GHS' => array( 'mobile_money' ),
                 'KES' => array( 'mobile_money' ),
                 'EGP' => array( 'mobile_money' ),

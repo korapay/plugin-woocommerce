@@ -200,7 +200,52 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		);
     }
 
-    
+    /**
+     * Whether the gateway should be offered for the current checkout context.
+     *
+     * Kora only supports a subset of currencies (WC_Korapay_Settings::get_currency_channel_map()).
+     * The store's base currency isn't a reliable signal for this — multi-currency
+     * stores let a customer check out in a currency other than the store default —
+     * so this is checked per request via get_woocommerce_currency(), which
+     * multi-currency plugins filter to whichever currency is active for the
+     * current customer/session, rather than once at construction.
+     *
+     * @return bool
+     */
+    public function is_available() {
+        if ( ! parent::is_available() ) {
+            return false;
+        }
+
+        $supported_currencies = apply_filters(
+            'wc_korapay_supported_currencies',
+            array_keys( WC_Korapay_Settings::get_currency_channel_map() )
+        );
+
+        return in_array( $this->get_current_currency(), $supported_currencies, true );
+    }
+
+    /**
+     * Currency for the checkout/order context currently being rendered.
+     *
+     * Falls back to get_woocommerce_currency() everywhere except the "Pay for
+     * order" page, where the order's own currency (which may differ from
+     * whatever currency is active in the current session) is what matters.
+     *
+     * @return string
+     */
+    protected function get_current_currency() {
+        if ( is_wc_endpoint_url( 'order-pay' ) ) {
+            $order = wc_get_order( absint( get_query_var( 'order-pay' ) ) );
+
+            if ( $order ) {
+                return $order->get_currency();
+            }
+        }
+
+        return get_woocommerce_currency();
+    }
+
 	/**
 	 * Check if Merchant details is filled.
 	 */
