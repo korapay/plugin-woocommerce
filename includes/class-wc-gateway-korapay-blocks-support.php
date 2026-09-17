@@ -88,10 +88,14 @@ final class WC_Gateway_Korapay_Blocks_Support extends AbstractPaymentMethodType 
 		$gateway                = $payment_gateways[ $this->name ];
 
 		return array(
-			'title'             => $this->get_setting( 'title' ),
-			'description'       => $this->get_setting( 'description' ),
-			'supports'          => array_filter( $gateway->supports, array( $gateway, 'supports' ) ),
-			'logo_urls'         => array( $payment_gateways[ $this->name ]->get_logo_url() ),
+			'title'                => $this->get_setting( 'title' ),
+			'description'          => $this->get_setting( 'description' ),
+			'supports'             => array_filter( $gateway->supports, array( $gateway, 'supports' ) ),
+			'logo_urls'            => array( $payment_gateways[ $this->name ]->get_logo_url() ),
+			'supported_currencies' => apply_filters(
+				'wc_korapay_supported_currencies',
+				array_keys( WC_Korapay_Settings::get_currency_channel_map() )
+			),
 		);
 	}
 
