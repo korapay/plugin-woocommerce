@@ -18,12 +18,12 @@ Get up and running in minutes with Kora's easy integration. Whether it's secure 
 
 ### Plugin Features:
 * **Accept payments** via Mastercard, Visa, Verve, USSD, Mobile Money, Bank Transfer, EFT, and more.
-* **Multiple currency support**, particularly for payments in Nigerian Naira (NGN), Ghanaian Cedi (GHS), and Kenyan Shilling (KES).
+* **Multiple currency support**, including Nigerian Naira (NGN), Ghanaian Cedi (GHS), Kenyan Shilling (KES), US Dollar (USD), Egyptian Pound (EGP), Central African CFA Franc (XAF), West African CFA Franc (XOF), and Tanzanian Shilling (TZS).
 * **Seamless integration** with WooCommerce checkout — customers can pay right on your site.
 * **Test mode** for easy testing before going live.
 
 ## Note  
-This plugin is designed for merchants operating in 🇬🇭 Ghana, 🇰🇪 Kenya, and 🇳🇬 Nigeria. 
+This plugin is designed for merchants operating in 🇪🇬 Egypt, 🇬🇭 Ghana, 🇰🇪 Kenya, 🇳🇬 Nigeria, and 🇹🇿 Tanzania, as well as the CFA franc zones of Central and West Africa (XAF, XOF), and merchants transacting in US Dollars (USD). 
 
 ## Installation
 
@@ -55,7 +55,7 @@ To avoid network issues from affecting order updates, we recommend setting up a 
 
 ### What currencies are supported?
 
-Kora supports several African currencies, including Nigerian Naira (NGN), Ghanaian Cedi (GHS), and Kenyan Shilling (KES).
+Kora supports several currencies, including Nigerian Naira (NGN), Ghanaian Cedi (GHS), Kenyan Shilling (KES), US Dollar (USD), Egyptian Pound (EGP), Central African CFA Franc (XAF), West African CFA Franc (XOF), and Tanzanian Shilling (TZS).
 
 ### How do I test Kora before going live?
 

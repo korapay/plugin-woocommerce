@@ -187,11 +187,6 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
         // Let's set the api keys we will be using.
 		$this->active_public_key = $this->testmode ? $this->test_public_key : $this->live_public_key;
 		$this->active_secret_key = $this->testmode ? $this->test_secret_key : $this->live_secret_key;
-
-		// Check if the gateway can be used.
-		if ( ! $this->is_valid_for_use() ) {
-			$this->enabled = false;
-		}
     }
 
     /**
@@ -205,7 +200,52 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		);
     }
 
-    
+    /**
+     * Whether the gateway should be offered for the current checkout context.
+     *
+     * Kora only supports a subset of currencies (WC_Korapay_Settings::get_currency_channel_map()).
+     * The store's base currency isn't a reliable signal for this — multi-currency
+     * stores let a customer check out in a currency other than the store default —
+     * so this is checked per request via get_woocommerce_currency(), which
+     * multi-currency plugins filter to whichever currency is active for the
+     * current customer/session, rather than once at construction.
+     *
+     * @return bool
+     */
+    public function is_available() {
+        if ( ! parent::is_available() ) {
+            return false;
+        }
+
+        $supported_currencies = apply_filters(
+            'wc_korapay_supported_currencies',
+            array_keys( WC_Korapay_Settings::get_currency_channel_map() )
+        );
+
+        return in_array( $this->get_current_currency(), $supported_currencies, true );
+    }
+
+    /**
+     * Currency for the checkout/order context currently being rendered.
+     *
+     * Falls back to get_woocommerce_currency() everywhere except the "Pay for
+     * order" page, where the order's own currency (which may differ from
+     * whatever currency is active in the current session) is what matters.
+     *
+     * @return string
+     */
+    protected function get_current_currency() {
+        if ( is_wc_endpoint_url( 'order-pay' ) ) {
+            $order = wc_get_order( absint( get_query_var( 'order-pay' ) ) );
+
+            if ( $order ) {
+                return $order->get_currency();
+            }
+        }
+
+        return get_woocommerce_currency();
+    }
+
 	/**
 	 * Check if Merchant details is filled.
 	 */
@@ -244,8 +284,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
      * Inspiration from Tubiz :).
 	 */
 	public function get_logo_url() {
-		$base_location = wc_get_base_location();
-		$url           = \WC_HTTPS::force_https_url( plugins_url( 'assets/images/kora-' . strtolower( $base_location['country'] ) . '.png', WC_KORAPAY_PLUGIN_FILE ) );
+		$url = \WC_HTTPS::force_https_url( plugins_url( 'assets/images/kora-wc.png', WC_KORAPAY_PLUGIN_FILE ) );
 
 		return apply_filters( 'wc_gateway_korapay_icon_url', $url, $this->id );
 	}
@@ -279,15 +318,9 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
 
 		<?php
-		if ( $this->is_valid_for_use() ) {
-			echo '<table class="form-table">';
-			$this->generate_settings_html();
-			echo '</table>';
-		} else {
-			?>
-			<div class="inline error"><p><strong><?php esc_html_e( 'Kora Payment Gateway Disabled', 'woo-korapay' ); ?></strong>: <?php echo wp_kses_post( $this->msg ); ?></p></div>
-			<?php
-		}
+		echo '<table class="form-table">';
+		$this->generate_settings_html();
+		echo '</table>';
 	}
 
     /**
@@ -338,23 +371,45 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		$webhook_url  = WC()->api_request_url( 'wc_korapay_webhook' );
 		$redirect_url = WC()->api_request_url( 'wc_gateway_korapay' );
 
-		// TODO: Set a setting field to allow non-technical users change this(not necessary).
-		
 		/**
-		 * Filters allowed payment channels
-		 * 
+		 * Filters allowed payment channels.
+		 *
 		 * @param int $order_id
 		 * @return array
-		 */		
-		$_channels = apply_filters( 'wc_korapay_allowed_payment_channels', array( 'card', 'bank_transfer' ), $order_id );
-		
+		 */
+		$_channels = apply_filters( 'wc_korapay_allowed_payment_channels', $this->get_option( 'allowed_channels', array() ), $order_id );
+
+		// get_option()/filters aren't guaranteed to return an array; normalize so
+		// array_intersect() below never receives a non-array and fatals.
+		$_channels = is_array( $_channels ) ? $_channels : array();
+
 		/**
 		 * Filters default payment channel
-		 * 
+		 *
 		 * @param int $order_id
 		 * @return string
-		 */		
-		$_default_channel = apply_filters( 'wc_korapay_default_payment_channels', 'card', $order_id );
+		 */
+		$_default_channel = apply_filters( 'wc_korapay_default_payment_channels', $this->get_option( 'default_channel', '' ), $order_id );
+
+		// Kora only supports a subset of channels for some currencies (e.g. GHS only
+		// supports mobile_money). Strip out anything invalid for this order's currency
+		// so we never send Kora a channel it will reject outright.
+		$_valid_channels_for_currency = WC_Korapay_Settings::get_channels_for_currency( $order->get_currency() );
+
+		if ( ! empty( $_channels ) ) {
+			$_channels = array_values( array_intersect( $_channels, $_valid_channels_for_currency ) );
+		}
+
+		if ( ! empty( $_default_channel ) && ! in_array( $_default_channel, $_valid_channels_for_currency, true ) ) {
+			$_default_channel = '';
+		}
+
+		// Kora requires the default channel to be one of the allowed channels. If a merchant
+		// restricts channels without updating the default, fall back to the first allowed
+		// channel rather than send Kora an inconsistent combination.
+		if ( ! empty( $_channels ) && ! empty( $_default_channel ) && ! in_array( $_default_channel, $_channels, true ) ) {
+			$_default_channel = reset( $_channels );
+		}
 
 		$order_narration = sprintf(
 			apply_filters(
@@ -366,14 +421,12 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		);
 
 		$korapay_params = array(
-            'amount'             => absint( $amount ),
+            'amount'             => round( (float) $amount, wc_get_price_decimals() ),
             'currency'           => $order->get_currency(),
             'reference'          => $txn_ref,
             'redirect_url'       => $redirect_url,
             'notification_url'   => $webhook_url,
             'narration'          => $order_narration,
-            'channels'           => $_channels,
-            'default_channel'    => $_default_channel,
             'customer'           => array(
                 'email' => $order->get_billing_email(),
                 'name'  => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
@@ -386,6 +439,14 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
             // 'merchant_bears_cost' => true, // TODO
         );
 
+		if ( ! empty( $_channels ) ) {
+			$korapay_params['channels'] = $_channels;
+		}
+
+		if ( ! empty( $_default_channel ) ) {
+			$korapay_params['default_channel'] = $_default_channel;
+		}
+
 		// $korapay_params['metadata']['custom_fields'] = $this->get_custom_fields( $order_id );
 
 		$order->update_meta_data( '_korapay_txn_ref', $txn_ref );
@@ -397,7 +458,14 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
             do_action( 'wc_korapay_redirect_payment_error', $response, $korapay_params, $order_id );
 
-            wc_add_notice( apply_filters( 'wc_korapay_redirect_payment_error_msg', __( 'Unable to process payment at this time, try again later.', 'woo-korapay' ), $response, $order_id ) , 'error' );
+            $default_error_msg = __( 'Unable to process payment at this time, try again later.', 'woo-korapay' );
+            $error_msg         = ( 'korapay_api_failed' === $response->get_error_code()
+                && $response->get_error_message()
+                && current_user_can( 'manage_woocommerce' ) )
+                ? $response->get_error_message()
+                : $default_error_msg;
+
+            wc_add_notice( apply_filters( 'wc_korapay_redirect_payment_error_msg', $error_msg, $response, $order_id ), 'error' );
 
 			return array(
 				'result'   => 'fail',
@@ -483,7 +551,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
             $payment_currency = strtoupper( $response['data']['currency'] );
             $gateway_symbol   = get_woocommerce_currency_symbol( $payment_currency );
 
-			if ( $amount_paid < absint( $order_total ) ) {
+			if ( round( (float) $amount_paid, wc_get_price_decimals() ) < round( (float) $order_total, wc_get_price_decimals() ) ) {
 
                 $order->update_status( 'on-hold', '' );
 
@@ -730,7 +798,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 
 		$order_total = $order->get_total();
 
-		$amount_paid = $korapay_response['data']['amount'] / 100;
+		$amount_paid = $korapay_response['data']['amount'];
 
 		$korapay_ref = $korapay_response['data']['reference'];
 
@@ -739,7 +807,7 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 		$gateway_symbol = get_woocommerce_currency_symbol( $payment_currency );
 
 		// check if the amount paid is equal to the order amount.
-		if ( $amount_paid < absint( $order_total ) ) {
+		if ( round( (float) $amount_paid, wc_get_price_decimals() ) < round( (float) $order_total, wc_get_price_decimals() ) ) {
 
 			$order->update_status( 'on-hold', '' );
 
@@ -807,22 +875,6 @@ class WC_Gateway_Korapay extends \WC_Payment_Gateway {
 	}
 
     // HELPER FUNCTIONS.
-
-	/**
-	 * Check if this gateway is enabled and available in the user's country.
-	 */
-	public function is_valid_for_use() {
-		if ( ! in_array( get_woocommerce_currency(), apply_filters( 'wc_korapay_supported_currencies', array( 'NGN', 'USD', 'GHS', 'KES' ) ) ) ) {
-			$this->msg = sprintf(
-				// translators: %s: WooCommerce general settings URL.
-				__( 'Sorry, Kora does not support your store currency. Kindly set it to either NGN (&#8358), GHS (&#x20b5;), USD (&#36;), or KES (KSh) <a href="%s">here</a>', 'woo-korapay' ),
-				esc_url( admin_url( 'admin.php?page=wc-settings&tab=general' ) )
-			);
-			return false;
-		}
-
-		return true;
-	}
 
 
     /**

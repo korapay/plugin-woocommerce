@@ -5,7 +5,7 @@ Requires at least: 6.0
 Tested up to: 7.0
 WC requires at least: 7.0.0
 WC tested up to: 9.3.0
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,13 +20,13 @@ Get up and running in minutes with Kora's easy integration. Whether it's secure 
 = Plugin Features: =
 
 * Accept payments via Mastercard, Visa, Verve, Mobile Money, Bank Account, EFT, and more.
-* Multiple currency support, particularly for payments in Nigerian Naira (NGN), Ghanaian Cedi (GHS), Kenyan Shilling (KES) and more.
+* Multiple currency support, including Nigerian Naira (NGN), Ghanaian Cedi (GHS), Kenyan Shilling (KES), US Dollar (USD), Egyptian Pound (EGP), Central African CFA Franc (XAF), West African CFA Franc (XOF), and Tanzanian Shilling (TZS).
 * Seamless integration with WooCommerce checkout — customers can pay right on your site.
 * Test mode for easy testing before going live.
 
 == Note ==
 
-This plugin is designed for merchants operating in Nigeria 🇳🇬, Ghana 🇬🇭, Kenya 🇰🇪.
+This plugin supports merchants operating in the countries covered by Kora's supported currencies (NGN, GHS, KES, USD, EGP, XAF, XOF, TZS).
 
 == Installation ==
 
@@ -59,7 +59,7 @@ To avoid network issues from affecting order updates, we recommend setting up a 
 
 = What currencies are supported? =
 
-Kora supports several African currencies, including Nigerian Naira (NGN), Ghanaian Cedi (GHS), and Kenyan Shilling (KES).
+Kora supports NGN, GHS, KES, USD, EGP, XAF, XOF, and TZS.
 
 = How do I test Kora before going live? =
 
@@ -87,6 +87,10 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
    ![Order Screenshot Placeholder](https://via.placeholder.com/800x400)
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+* Stop restricting checkout to a fixed payment-channel list; all channels enabled on the merchant's Kora account are now available.
+* Expand supported store currencies to EGP, XAF, XOF, and TZS.
 
 = 1.1.3 =
 * Address WordPress.org Plugin Check compliance issues with gateway security, escaping, and i18n improvements.

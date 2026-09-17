@@ -1,5 +1,9 @@
 === Kora Payment Gateway for WooCommerce ===
 
+2026.08.03 - version 1.2.0
+* Stop restricting checkout to a fixed payment-channel list; all channels enabled on the merchant's Kora account are now available.
+* Expand supported store currencies to EGP, XAF, XOF, and TZS.
+
 2026.07.04 - version 1.1.3
 * Address WordPress.org Plugin Check compliance issues.
 * Improve gateway output escaping, safe redirects, and payment callback/webhook input handling.
