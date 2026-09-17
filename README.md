@@ -76,7 +76,6 @@ Please make sure that you’ve enabled Kora in the WooCommerce settings and corr
 To process a refund, log in to your Kora dashboard, find the transaction, and select "Refund." Pick the refund type, provide a reason, and confirm. Refunds are processed within 48 hours on weekdays, without any extra fees, but note that the original transaction fee won't be refunded. Funds will be returned to the original payment method.
 
 For more detailed steps, check out [Kora's refund guide](https://support.korapay.com/en/articles/6089921-refunds).
-To process refund.
 
 ## Screenshots
 
@@ -90,6 +89,10 @@ To process refund.
    ![Order Screenshot Placeholder](https://via.placeholder.com/800x400)
 
 ## Upgrade Notice
+
+### 1.1.3
+* Plugin renamed to Kora Payment Gateway for WooCommerce and re-listed on the WordPress Plugin Directory.
+* If you previously installed the plugin via zip file, please update to this version from your WordPress dashboard.
 
 ### 1.0
 * Initial release of Kora Payment Gateway for WooCommerce.
